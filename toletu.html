@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toletu.com - Main Page Layout</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    header, nav, .categories, .sortbar {
+      background-color: #fff;
+      border-bottom: 1px solid #ebe8e8;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #ebe8e8;
+      flex-wrap: wrap;
+    }
+    .logo {
+      color: #38b6ff;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .main-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    select, input[type="search"] {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .icon-btn, .post-btn {
+      background-color: #38b6ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 20px;
+      overflow-x: auto;
+    }
+    .categories button {
+      background: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .sortbar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+    @media (min-width: 600px) {
+      .sortbar {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    .content {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .listing-card, .ad-slot {
+      background-color: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .listing-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .listing-info {
+      margin-top: 10px;
+    }
+    .ad-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #bbb;
+      height: 200px;
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Toletu</div>
+    <div class="main-controls">
+      <select>
+        <option>Anantapur</option>
+        <option>Hyderabad</option>
+        <option>Vijayawada</option>
+      </select>
+      <input type="search" placeholder="Search homes, PGs, etc...">
+      <select>
+        <option>EN</option>
+        <option>TE</option>
+      </select>
+      <button class="icon-btn">🔔</button>
+      <button class="icon-btn">❤️</button>
+      <button class="post-btn">POST</button>
+      <button class="icon-btn">👤</button>
+    </div>
+  </header>
+
+  <nav class="categories">
+    <button>All Categories</button>
+    <button>Homes</button>
+    <button>Rooms</button>
+    <button>Roommates</button>
+    <button>Apartments</button>
+    <button>PG’s</button>
+    <button>Hostels</button>
+    <button>Shops</button>
+    <button>Ad Space</button>
+  </nav>
+
+  <section class="sortbar">
+    <div>Homes for rent in <strong>Anantapur</strong></div>
+    <div>
+      Sort by:
+      <select>
+        <option>Price</option>
+        <option>Newest</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="content" id="listing-container">
+    <!-- Sample listings and ads injected below -->
+  </section>
+
+  <script>
+    const listings = [
+      { price: '₹5,000', type: '2bhk - 2bds', location: 'Ram Nagar, Anantapur', date: 'Apr 2', img: 'https://via.placeholder.com/300x160' },
+      { price: '₹4,500', type: '1bhk - 1bd', location: 'Gandhi Chowk, Anantapur', date: 'Apr 3', img: 'https://via.placeholder.com/300x160' },
+      { price: '₹6,200', type: '3bhk - 3bds', location: 'RTC Colony, Anantapur', date: 'Apr 1', img: 'https://via.placeholder.com/300x160' },
+      { price: '₹5,800', type: '2bhk - 2bds', location: 'Housing Board, Anantapur', date: 'Apr 4', img: 'https://via.placeholder.com/300x160' },
+      { price: '₹4,000', type: '1 Room', location: 'Old Town, Anantapur', date: 'Apr 2', img: 'https://via.placeholder.com/300x160' },
+      { price: '₹7,500', type: '4bhk - 4bds', location: 'Sainagar, Anantapur', date: 'Apr 1', img: 'https://via.placeholder.com/300x160' },
+    ];
+
+    const container = document.getElementById('listing-container');
+    const adTemplate = `<div class="ad-slot">AD SPACE</div>`;
+
+    listings.forEach((item, i) => {
+      if (i % 3 === 0 && i !== 0) container.innerHTML += adTemplate;
+      container.innerHTML += `
+        <div class="listing-card">
+          <img src="${item.img}" alt="Listing">
+          <div class="listing-info">
+            <strong>${item.price}</strong><br>
+            ${item.type}<br>
+            ${item.location}<br>
+            <small>${item.date}</small>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
