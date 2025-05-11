@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toletu - Filterable Listings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #38b6ff;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .filters select, .filters input {
+      padding: 8px;
+      font-size: 14px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+    .listings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      border: 2px solid #38b6ff;
+    }
+    .card h4 {
+      margin: 5px 0;
+    }
+    .card p {
+      margin: 3px 0;
+      font-size: 14px;
+    }
+    .card .tag {
+      display: inline-block;
+      background: #38b6ff;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Browse Listings</h2>
+
+    <div class="filters">
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+        <option value="home">Home</option>
+        <option value="pg">PG</option>
+        <option value="shop">Shop</option>
+        <option value="hostel">Hostel</option>
+      </select>
+
+      <select id="furnishingFilter">
+        <option value="">Furnishing</option>
+        <option value="yes">Furnished</option>
+        <option value="no">Not Furnished</option>
+      </select>
+
+      <input type="number" id="maxPrice" placeholder="Max Price ₹" />
+    </div>
+
+    <div class="listings" id="listingsContainer"></div>
+  </div>
+
+  <script>
+    const listings = [
+      { id: 1, category: 'home', title: '2BHK Home', location: 'Ram Nagar', price: 6000, furnished: 'yes' },
+      { id: 2, category: 'pg', title: 'PG for Boys', location: 'RTC Colony', price: 3500, furnished: 'no' },
+      { id: 3, category: 'shop', title: 'Corner Shop', location: 'Main Bazaar', price: 8000, furnished: 'yes' },
+      { id: 4, category: 'hostel', title: 'Girls Hostel AC', location: 'Sainagar', price: 5000, furnished: 'yes' },
+      { id: 5, category: 'home', title: 'Independent House', location: 'Vidya Nagar', price: 9000, furnished: 'no' },
+      { id: 6, category: 'pg', title: 'Shared PG Room', location: 'Market Road', price: 3000, furnished: 'yes' },
+      { id: 7, category: 'hostel', title: 'AC Hostel with Food', location: 'Old Town', price: 5500, furnished: 'yes' },
+      { id: 8, category: 'shop', title: 'Retail Space', location: 'Commercial Lane', price: 7000, furnished: 'no' }
+    ];
+
+    const categoryFilter = document.getElementById('categoryFilter');
+    const furnishingFilter = document.getElementById('furnishingFilter');
+    const maxPriceInput = document.getElementById('maxPrice');
+    const listingsContainer = document.getElementById('listingsContainer');
+
+    function renderListings(filtered) {
+      listingsContainer.innerHTML = '';
+      if (filtered.length === 0) {
+        listingsContainer.innerHTML = '<p>No matching listings found.</p>';
+        return;
+      }
+      filtered.forEach(item => {
+        listingsContainer.innerHTML += `
+          <div class="card">
+            <h4>${item.title}</h4>
+            <p>${item.location}</p>
+            <p>₹${item.price}</p>
+            <span class="tag">${item.category.toUpperCase()}</span>
+          </div>
+        `;
+      });
+    }
+
+    function applyFilters() {
+      const category = categoryFilter.value;
+      const furnishing = furnishingFilter.value;
+      const maxPrice = parseInt(maxPriceInput.value);
+
+      let filtered = listings;
+
+      if (category) {
+        filtered = filtered.filter(item => item.category === category);
+      }
+      if (furnishing) {
+        filtered = filtered.filter(item => item.furnished === furnishing);
+      }
+      if (!isNaN(maxPrice)) {
+        filtered = filtered.filter(item => item.price <= maxPrice);
+      }
+
+      renderListings(filtered);
+    }
+
+    categoryFilter.addEventListener('change', applyFilters);
+    furnishingFilter.addEventListener('change', applyFilters);
+    maxPriceInput.addEventListener('input', applyFilters);
+
+    // Initial render
+    renderListings(listings);
+  </script>
+</body>
+</html>

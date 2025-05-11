@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Dashboard - Toletu</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background: #38b6ff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid black;
+      position: relative;
+    }
+
+    .back-arrow {
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .logo-text {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .profile-icon {
+      background: white;
+      border: 2px solid black;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: white;
+    }
+
+    /* Listing Cards */
+    .listing {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid #38b6ff;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #fff;
+      flex-wrap: wrap;
+    }
+
+    .ad-info h4 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      color: #222;
+    }
+
+    .ad-info p {
+      margin: 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .ad-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .ad-actions button {
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #38b6ff;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+
+    .saved-listing {
+      border: 2px solid #38b6ff;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .saved-listing h4 {
+      margin: 0;
+    }
+
+    .bottom-bar {
+      display: flex;
+      justify-content: space-around;
+      background: #38b6ff;
+      border-top: 4px solid black;
+    }
+
+    .bottom-bar button {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 12px 0;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      border-right: 1px solid #fff;
+      cursor: pointer;
+    }
+
+    .bottom-bar button:last-child {
+      border-right: none;
+    }
+
+    .bottom-bar button.active {
+      background: black;
+      color: white;
+    }
+
+    .bottom-bar button i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    /* Sleek Settings */
+    .settings-form {
+      max-width: 400px;
+      margin-top: 10px;
+    }
+
+    .settings-form .form-group {
+      margin-bottom: 15px;
+    }
+
+    .settings-form label {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+      color: #222;
+    }
+
+    .settings-form input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      transition: border 0.3s ease;
+    }
+
+    .settings-form input:focus {
+      border-color: #38b6ff;
+      outline: none;
+    }
+
+    .settings-form button {
+      padding: 10px;
+      font-size: 14px;
+      width: 100%;
+      background: #38b6ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-bar {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="back-arrow" onclick="window.location.href='index.html'">←</div>
+  <div class="logo-text">Toletu</div>
+  <div class="profile-icon">👤</div>
+</header>
+
+<div class="main-content" id="dashboardContent">
+
+  <!-- My Listings -->
+  <div id="myListings" class="section">
+    <h3>Your Posted Ads</h3>
+    <div class="listing">
+      <div class="ad-info">
+        <h4>2BHK Home - Ram Nagar</h4>
+        <p>₹6,000 | Furnished</p>
+      </div>
+      <div class="ad-actions">
+        <button class="edit-btn">✏️ Edit</button>
+        <button class="delete-btn">🗑️ Delete</button>
+      </div>
+    </div>
+    <div class="listing">
+      <div class="ad-info">
+        <h4>PG for Boys - RTC Colony</h4>
+        <p>₹3,500 | Non-Furnished</p>
+      </div>
+      <div class="ad-actions">
+        <button class="edit-btn">✏️ Edit</button>
+        <button class="delete-btn">🗑️ Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved Listings -->
+  <div id="saved" class="section" style="display:none">
+    <h3>Saved Listings ❤️</h3>
+    <div class="saved-listing">
+      <h4>Retail Shop - Main Bazaar</h4>
+      <span>❤️</span>
+    </div>
+    <div class="saved-listing">
+      <h4>Hostel AC - Sainagar</h4>
+      <span>❤️</span>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div id="settings" class="section" style="display:none">
+    <h3>Account Settings</h3>
+    <form class="settings-form">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" value="john_doe" placeholder="Username" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" value="john@example.com" placeholder="Email" />
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" placeholder="New Password" />
+      </div>
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-bar">
+  <button class="active" onclick="showSection('myListings', this)">
+    <i>📄</i>
+    Listings
+  </button>
+  <button onclick="showSection('saved', this)">
+    <i>❤️</i>
+    Saved
+  </button>
+  <button onclick="showSection('settings', this)">
+    <i>⚙️</i>
+    Settings
+  </button>
+</div>
+
+<script>
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+
+    document.querySelectorAll('.bottom-bar button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

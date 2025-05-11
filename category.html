@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Category</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #38b6ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #39b6ff;
+      border: 4px solid black;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+    }
+    h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+    .category {
+      background: #f9f9f9;
+      border: 3px solid black;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, border 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90px;
+    }
+    .category img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-bottom: 5px;
+    }
+    .category span {
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .category.active {
+      border: 3px solid #ff8800;
+      background: #fffbe6;
+      transform: scale(1.05);
+    }
+    .next-btn {
+      margin-top: 20px;
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: white;
+      border: 2px solid #000;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Toletu</h2>
+    <h2>Select Ad Category</h2>
+    <div class="grid" id="categoryGrid">
+      <div class="category" data-category="Home">
+        <img src="icons/house.png" alt="Home">
+        <span>Home</span>
+      </div>
+      <div class="category" data-category="Rooms">
+        <img src="icons/door.png" alt="Rooms">
+        <span>Rooms</span>
+      </div>
+      <div class="category" data-category="Hostel">
+        <img src="icons/hostel.png" alt="Hostel">
+        <span>Hostel</span>
+      </div>
+      <div class="category" data-category="Apartment">
+        <img src="icons/apartment.png" alt="Apartment">
+        <span>Apartment</span>
+      </div>
+      <div class="category" data-category="Office">
+        <img src="icons/Office.png" alt="Office Space">
+        <span>Office</span>
+      </div>
+      <div class="category" data-category="Shop">
+        <img src="icons/shop.png" alt="Shop">
+        <span>Shop</span>
+      </div>
+      <div class="category" data-category="Roommate">
+        <img src="icons/shared-housing.png" alt="Roommates">
+        <span>Roommate</span>
+      </div>
+      <div class="category" data-category="Warehouse">
+        <img src="icons/warehouse_Godowns.png" alt="Warehouse">
+        <span>Warehouse</span>
+      </div>
+      <div class="category" data-category="AdSpace">
+        <img src="icons/Ad_space.png" alt="Ad Space">
+        <span>Ad Space</span>
+      </div>
+    </div>
+    <button class="next-btn" onclick="goNext()">Next</button>
+  </div>
+
+  <script>
+    const categories = document.querySelectorAll('.category');
+    let selected = null;
+
+    categories.forEach(cat => {
+      cat.addEventListener('click', () => {
+        categories.forEach(c => c.classList.remove('active'));
+        cat.classList.add('active');
+        selected = cat.dataset.category;
+      });
+    });
+
+    function goNext() {
+      if (!selected) {
+        alert('Please select a category first!');
+        return;
+      }
+      alert('You selected: ' + selected);
+      // window.location.href = `/post-ad?category=${selected}`;
+    }
+  </script>
+</body>
+</html>

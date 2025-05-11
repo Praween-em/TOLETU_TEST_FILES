@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Ad - Toletu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f2f2;
+    }
+    .container {
+      background-color: #38b6ff;
+      border: 4px solid black;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      max-width: 600px;
+      margin-inline: auto;
+    }
+    h2 {
+      text-align: center;
+      color: #fff;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      color: #fff;
+      font-weight: bold;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: white;
+      color: black;
+      border: 2px solid black;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+    @media screen and (max-width: 500px) {
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Post Your Ad</h2>
+
+    <label for="category">Select Category</label>
+    <select id="category" onchange="renderForm()">
+      <option value="">-- Choose --</option>
+      <option value="home">Home</option>
+      <option value="apartment">Apartment</option>
+      <option value="hostel">Hostel</option>
+      <option value="roommate">Roommate</option>
+      <option value="shop">Shop</option>
+      <option value="office">Office</option>
+      <option value="warehouse">Warehouse</option>
+      <option value="adspace">Ad Space</option>
+    </select>
+
+    <form id="dynamicForm">
+      <!-- Dynamic Form Content -->
+    </form>
+  </div>
+
+  <script>
+    const baseFields = {
+      home: [
+        ['Bedrooms', 'number'],
+        ['Bathrooms', 'number'],
+        ['Furnishing', 'dropdown', ['Yes', 'No', 'Semi-furnished']],
+        ['Car Parking', 'dropdown', ['Yes', 'No']],
+        ['Residency Name', 'text'],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ]
+    };
+
+    const formFields = {
+      home: baseFields.home,
+      apartment: [
+        ...baseFields.home,
+        ['Floor Number', 'number'],
+        ['Lift Available', 'dropdown', ['Yes', 'No']]
+      ],
+      hostel: [
+        ['AC / Non-AC', 'dropdown', ['AC', 'Non-AC']],
+        ['Room Type', 'dropdown', ['Single', 'Shared']],
+        ['Meals Provided', 'dropdown', ['Yes', 'No']],
+        ['Gender Preference', 'dropdown', ['Male', 'Female', 'Any']],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ],
+      roommate: [
+        ['Preferred Gender', 'dropdown', ['Male', 'Female', 'Any']],
+        ['Age Range', 'text'],
+        ['Move-in Date', 'date'],
+        ['Pets Allowed', 'dropdown', ['Yes', 'No']],
+        ['Smoking Allowed', 'dropdown', ['Yes', 'No']],
+        ['Description', 'textarea'],
+        ['Upload Images', 'file']
+      ],
+      shop: [
+        ['Shop Type', 'text'],
+        ['Floor Number', 'number'],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ],
+      office: [
+        ['Car Parking', 'dropdown', ['Yes', 'No']],
+        ['Furnishing', 'dropdown', ['Yes', 'No', 'Semi-furnished']],
+        ['Area (sq. ft.)', 'number'],
+        ['Floor Number', 'number'],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ],
+      warehouse: [
+        ['Area (sq. ft.)', 'number'],
+        ['Ceiling Height', 'number'],
+        ['Truck Access', 'dropdown', ['Yes', 'No']],
+        ['Power Backup', 'dropdown', ['Yes', 'No']],
+        ['Floor Level', 'number'],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ],
+      adspace: [
+        ['Ad Type', 'dropdown', ['Banner', 'Wall', 'LED']],
+        ['Size (ft)', 'text'],
+        ['Visibility', 'dropdown', ['Main Road', 'Local', 'School Zone']],
+        ['Location', 'text'],
+        ['Price', 'number'],
+        ['Upload Images', 'file']
+      ]
+    };
+
+    function renderForm() {
+      const category = document.getElementById('category').value;
+      const form = document.getElementById('dynamicForm');
+      form.innerHTML = '';
+
+      if (!category || !formFields[category]) return;
+
+      formFields[category].forEach(([label, type, options]) => {
+        const id = label.toLowerCase().replace(/\s+/g, '_');
+        const fieldLabel = `<label for="${id}">${label}</label>`;
+        let input = '';
+
+        if (type === 'dropdown') {
+          input = `<select id="${id}" name="${id}">${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}</select>`;
+        } else if (type === 'textarea') {
+          input = `<textarea id="${id}" name="${id}" rows="3"></textarea>`;
+        } else {
+          const multi = label.includes("Images") ? 'multiple' : '';
+          input = `<input type="${type}" id="${id}" name="${id}" ${multi}>`;
+        }
+
+        form.innerHTML += fieldLabel + input;
+      });
+
+      form.innerHTML += `<button type="submit">Submit Ad</button>`;
+    }
+  </script>
+</body>
+</html>
