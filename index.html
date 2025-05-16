@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Toletu.com - Main Page</title>
   <style>
+    /* (Same styles from your original code)... */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -154,35 +155,34 @@
   <header>
     <div class="logo">Toletu</div>
     <div class="main-controls">
-      <select>
+      <select id="city-select">
         <option>Anantapur</option>
         <option>Hyderabad</option>
         <option>Vijayawada</option>
       </select>
-      <input type="search" placeholder="Search homes, PGs, etc..." />
-      <button class="search-btn">Search</button>
+      <input type="search" id="search-box" placeholder="Search homes, PGs, etc..." />
+      <button class="search-btn" id="search-btn">Search</button>
     </div>
   </header>
 
-  <nav class="categories">
-    <button>All Categories</button>
-    <button>Homes</button>
-    <button>Rooms</button>
-    <button>Roommates</button>
-    <button>Apartments</button>
-    <button>PG’s</button>
-    <button>Hostels</button>
-    <button>Shops</button>
-    <button>Ad Space</button>
+  <nav class="categories" id="category-bar">
+    <button data-category="">All Categories</button>
+    <button data-category="Homes">Homes</button>
+    <button data-category="Rooms">Rooms</button>
+    <button data-category="Roommates">Roommates</button>
+    <button data-category="Apartments">Apartments</button>
+    <button data-category="PG’s">PG’s</button>
+    <button data-category="Hostels">Hostels</button>
+    <button data-category="Shops">Shops</button>
   </nav>
 
   <section class="sortbar">
-    <div>Homes for rent in <strong>Anantapur</strong></div>
+    <div id="location-title">Homes for rent in <strong>Anantapur</strong></div>
     <div>
       Sort by:
-      <select>
-        <option>Price</option>
-        <option>Newest</option>
+      <select id="sort-select">
+        <option value="price">Price</option>
+        <option value="newest">Newest</option>
       </select>
       Filter:
       <select id="area-filter">
@@ -196,9 +196,7 @@
     </div>
   </section>
 
-  <section class="content" id="listing-container">
-    <!-- Listings will be injected here -->
-  </section>
+  <section class="content" id="listing-container"></section>
 
   <div class="bottom-bar">
     <button onclick="alert('Go to My Listings')">📄<span>Listings</span></button>
@@ -207,28 +205,52 @@
   </div>
 
   <script>
-    const listings = [
-      { price: '₹5,000', type: '2bhk - 2bds', location: 'Ram Nagar', date: 'Apr 2', img: 'https://via.placeholder.com/300x160' },
-      { price: '₹4,500', type: '1bhk - 1bd', location: 'Gandhi Chowk', date: 'Apr 3', img: 'https://via.placeholder.com/300x160' },
-      { price: '₹6,200', type: '3bhk - 3bds', location: 'RTC Colony', date: 'Apr 1', img: 'https://via.placeholder.com/300x160' },
-      { price: '₹5,800', type: '2bhk - 2bds', location: 'Housing Board', date: 'Apr 4', img: 'https://via.placeholder.com/300x160' },
-      { price: '₹4,000', type: '1 Room', location: 'Old Town', date: 'Apr 2', img: 'https://via.placeholder.com/300x160' },
-      { price: '₹7,500', type: '4bhk - 4bds', location: 'Sainagar', date: 'Apr 1', img: 'https://via.placeholder.com/300x160' },
-    ];
-
     const container = document.getElementById('listing-container');
     const areaFilter = document.getElementById('area-filter');
+    const citySelect = document.getElementById('city-select');
+    const sortSelect = document.getElementById('sort-select');
+    const searchBtn = document.getElementById('search-btn');
+    const searchBox = document.getElementById('search-box');
+    const categoryBar = document.getElementById('category-bar');
+    const locationTitle = document.getElementById('location-title');
 
-    function renderListings(filter = 'all') {
+    let state = {
+      city: 'Anantapur',
+      area: 'all',
+      query: '',
+      category: '',
+      sort: 'newest'
+    };
+
+    const dummyListings = [
+      { price: '₹5,000', type: '2bhk - 2bds', location: 'Ram Nagar', date: 'Apr 2', image: 'https://via.placeholder.com/300x160', category: 'Homes', city: 'Anantapur' },
+      { price: '₹4,000', type: 'PG', location: 'RTC Colony', date: 'Apr 4', image: 'https://via.placeholder.com/300x160', category: 'PG’s', city: 'Anantapur' },
+      { price: '₹6,200', type: '3bhk - 3bds', location: 'Sainagar', date: 'Apr 3', image: 'https://via.placeholder.com/300x160', category: 'Apartments', city: 'Hyderabad' },
+      { price: '₹3,800', type: 'Room', location: 'Old Town', date: 'Apr 5', image: 'https://via.placeholder.com/300x160', category: 'Rooms', city: 'Anantapur' },
+      { price: '₹7,500', type: '4bhk', location: 'Housing Board', date: 'Apr 1', image: 'https://via.placeholder.com/300x160', category: 'Homes', city: 'Vijayawada' },
+    ];
+
+    function simulateAPI(state) {
+      return dummyListings
+        .filter(l => state.city === l.city)
+        .filter(l => state.area === 'all' || l.location === state.area)
+        .filter(l => state.category === '' || l.category === state.category)
+        .filter(l => state.query === '' || l.type.toLowerCase().includes(state.query.toLowerCase()))
+        .sort((a, b) => state.sort === 'price'
+          ? parseInt(a.price.replace(/[₹,]/g, '')) - parseInt(b.price.replace(/[₹,]/g, ''))
+          : new Date(b.date) - new Date(a.date));
+    }
+
+    function renderListings() {
+      const results = simulateAPI(state);
       container.innerHTML = '';
-      const filtered = listings.filter(item => filter === 'all' || item.location.includes(filter));
-      filtered.forEach((item, i) => {
+      results.forEach((item, i) => {
         if (i % 3 === 0 && i !== 0) {
           container.innerHTML += `<div class="ad-slot">AD SPACE</div>`;
         }
         container.innerHTML += `
           <div class="listing-card">
-            <img src="${item.img}" alt="Listing">
+            <img src="${item.image}" alt="Listing">
             <div class="listing-info">
               <strong>${item.price}</strong><br>
               ${item.type}<br>
@@ -238,13 +260,37 @@
           </div>
         `;
       });
+      locationTitle.innerHTML = `Homes for rent in <strong>${state.city}</strong>`;
     }
 
-    areaFilter.addEventListener('change', (e) => {
-      renderListings(e.target.value);
+    areaFilter.addEventListener('change', e => {
+      state.area = e.target.value;
+      renderListings();
     });
 
-    renderListings(); // Initial render
+    citySelect.addEventListener('change', e => {
+      state.city = e.target.value;
+      renderListings();
+    });
+
+    sortSelect.addEventListener('change', e => {
+      state.sort = e.target.value;
+      renderListings();
+    });
+
+    searchBtn.addEventListener('click', () => {
+      state.query = searchBox.value;
+      renderListings();
+    });
+
+    categoryBar.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', () => {
+        state.category = button.getAttribute('data-category');
+        renderListings();
+      });
+    });
+
+    renderListings();
   </script>
 </body>
 </html>
