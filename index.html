@@ -33,18 +33,20 @@
 
     .main-controls {
       display: flex;
-      flex-wrap: wrap;
+      flex: 1;
       gap: 10px;
       margin-top: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     select, input[type="search"] {
-      padding: 5px;
+      padding: 6px;
       border-radius: 4px;
       border: 1px solid #ccc;
     }
 
-    .post-btn {
+    .search-btn {
       background-color: #38b6ff;
       color: white;
       border: none;
@@ -141,6 +143,10 @@
       flex-direction: column;
       align-items: center;
     }
+
+    .bottom-bar span {
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
@@ -154,7 +160,7 @@
         <option>Vijayawada</option>
       </select>
       <input type="search" placeholder="Search homes, PGs, etc..." />
-      <button class="post-btn">POST</button>
+      <button class="search-btn">Search</button>
     </div>
   </header>
 
@@ -191,13 +197,13 @@
   </section>
 
   <section class="content" id="listing-container">
-    <!-- Listings will be rendered here -->
+    <!-- Listings will be injected here -->
   </section>
 
   <div class="bottom-bar">
-    <button onclick="alert('Go to My Listings')">📄<br><span style="font-size:12px">Listings</span></button>
-    <button onclick="alert('Post an Ad')">➕<br><span style="font-size:12px">Post Ad</span></button>
-    <button onclick="alert('Go to Profile')">👤<br><span style="font-size:12px">Profile</span></button>
+    <button onclick="alert('Go to My Listings')">📄<span>Listings</span></button>
+    <button onclick="alert('Open Search')">🔍<span>Search</span></button>
+    <button onclick="alert('Go to Profile')">👤<span>Profile</span></button>
   </div>
 
   <script>
@@ -238,8 +244,7 @@
       renderListings(e.target.value);
     });
 
-    // Initial load
-    renderListings();
+    renderListings(); // Initial render
   </script>
 </body>
 </html>
